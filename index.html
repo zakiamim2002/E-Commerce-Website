@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Coffee Corner — Your Daily Dose of Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <div class="brand"><div class="logo">☕</div> <b style="color:chocolate"><em>Coffee Corner</em></b></div>
+            <div class="tabs">
+                <button class="tab active" data-tab="shop"><h3 style="color:chocolate>Menu</h3></button>
+                <button class="tab" data-tab="cart"> <h3>My Cart</h3> (<span id="cart-count">0</span>)</button>
+                <button class="tab" data-tab="checkout"><h3>Order</h3></button>
+                <button class="tab" data-tab="dashboard"><h3>Dashboard</h3></button>
+                <button class="tab" data-tab="account"><h3>Account</h3></button>
+                <button id="admin-tab" class="tab admin-tab" data-tab="admin" style="display:none;"><h3>Admin</h3></button>
+            </div>
+            <div class="actions">
+                <div id="welcome" class="muted"></div>
+                <button id="logoutBtn" class="btn logout-btn" style="display:none;"><h3>Logout</h3></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="panel-shop" class="panel active">
+            <div class="search-row">
+                <input id="search" class="input" placeholder="Search coffee, pastries...">
+                <select id="sort" class="input sort-select">
+                    <option value=""><b>Sort by</b></option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                    <option value="discount-desc">Highest Discount</option>
+                </select>
+            </div>
+            <div id="products" class="products"></div>
+        </section>
+
+        <section id="panel-cart" class="panel">
+            <h2>Your Cart</h2>
+            <table class="cart-table">
+                <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
+                <tbody id="cart-body"></tbody>
+            </table>
+            <div class="cart-summary">
+                <div class="muted">Tip: Login to save your cart.</div>
+                <div><strong>Total: <span id="cart-total">৳0</span></strong></div>
+            </div>
+            <div class="cart-actions">
+                <button class="btn ghost" data-tab="shop">Continue Ordering</button>
+                <button class="btn primary" data-tab="checkout">Proceed to Order</button>
+            </div>
+        </section>
+
+        <section id="panel-checkout" class="panel">
+            <h2>Checkout</h2>
+            <div class="two-col">
+                <div class="auth-card">
+                    <div class="auth-title"><h3>Delivery Details</h3></div>
+                    <label>Full name</label><input id="co-name" placeholder="Your full name">
+                    <label>Phone</label><input id="co-phone" placeholder="01XXXXXXXXX">
+                    <label>Address</label><textarea id="co-address" rows="3" placeholder="House, Road, Area, City"></textarea>
+                </div>
+                <div class="auth-card">
+                    <div class="auth-title"><h3>Payment & Notes</h3></div>
+                    <label>Payment Method</label>
+                    <select id="co-method">
+                        <option>Cash on Delivery</option>
+                        <option>BKash</option>
+                        <option>Nagad</option>
+                    </select>
+                    <label>Notes (optional)</label><input id="co-notes" placeholder="e.g. Call me before delivery">
+                    <div class="checkout-btns">
+                        <button class="btn primary" id="place-order">Place Order</button>
+                        <div id="co-msg" class="message-success"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel-dashboard" class="panel">
+            <h2>Dashboard</h2>
+            <div class="kpis" id="kpis"></div>
+            <h3 class="section-title">My Orders</h3>
+            <table class="cart-table">
+                <thead><tr><th>#</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+                <tbody id="orders-body"></tbody>
+            </table>
+        </section>
+
+        <section id="panel-account" class="panel">
+            <div class="two-col">
+                <div class="auth-card">
+                    <div class="auth-title"><h2>Register</h2></div>
+                    <label><h4 style="color:chocolte">Name</h4></label><input id="reg-name" required>
+                    <label><h4 style="color:chocolte">Email</h4></label><input id="reg-email" type="email" placeholder="you@example.com" required>
+                    <label><h4 style="color:chocolte">Phone</h4></label><input id="reg-phone">
+                    <label><h4 style="color:chocolte">Address</h4></label><textarea id="reg-address" rows="2"></textarea>
+                    <label><h4 style="color:chocolte">Password</h4></label><input id="reg-pass" type="password" required>
+                    <div class="auth-btn-row"><button id="reg-btn" class="btn primary"><h4 style="color:chocolte">Create Account</h4></button></div>
+                    <div id="reg-msg" class="message-error"></div>
+                </div>
+
+                <div class="auth-card">
+                    <div class="auth-title"><h2>Login</h2></div>
+                    <label><h4 style="color:chocolte">Email</h4></label><input id="log-email" type="email">
+                    <label><h4 style="color:chocolte">Password</h4></label><input id="log-pass" type="password">
+                    <div class="auth-btn-row"><button id="log-btn" class="btn primary">Login</button></div>
+                    <div id="log-msg" class="message-error"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel-admin" class="panel">
+            <h2>Admin Panel</h2>
+            <div class="two-col">
+                <div class="auth-card">
+                    <div class="auth-title"><h3>Add/Edit Product</h3></div>
+                    <form id="admin-product-form">
+                        <input type="hidden" id="admin-product-id">
+                        <label>Product Name</label><input id="admin-product-name" required>
+                        <label>Description</label><textarea id="admin-product-desc" rows="2"></textarea>
+                        <label>Price</label><input id="admin-product-price" type="number" required>
+                        <label>Discount (%)</label><input id="admin-product-discount" type="number" value="0">
+                        <label>Image URL</label><input id="admin-product-image" required>
+                        <div class="admin-form-btns">
+                            <button type="submit" class="btn primary" id="admin-submit-btn">Add Product</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="auth-card">
+                    <div class="auth-title"><h3>Manage Products</h3></div>
+                    <table class="cart-table">
+                        <thead><tr><th>ID</th><th>Name</th><th>Price</th><th>Actions</th></tr></thead>
+                        <tbody id="admin-product-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            &copy; <span id="year"></span> Coffee Corner. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
